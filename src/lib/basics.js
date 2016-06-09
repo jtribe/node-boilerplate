@@ -1,19 +1,19 @@
 import lugg from 'lugg'
 import BunyanLoggly from 'bunyan-loggly'
-import configNode from 'config-node'
+import config from './config'
 
 export default function setup() {
-  initLogging(configNode.logging)
+  initLogging(config.logging)
 }
 
-export function initLogging(config) {
-  let logConfig = Object.assign({}, config)
-  if (logConfig.loggly) {
-    logConfig.streams = logConfig.streams || []
-    logConfig.streams.push({
+export function initLogging(logConfig) {
+  let luggConfig = Object.assign({}, logConfig)
+  if (luggConfig.loggly) {
+    luggConfig.streams = luggConfig.streams || []
+    luggConfig.streams.push({
       type: 'raw',
-      stream: new BunyanLoggly(logConfig.loggly)
+      stream: new BunyanLoggly(luggConfig.loggly)
     })
   }
-  lugg.init(logConfig)
+  lugg.init(luggConfig)
 }
